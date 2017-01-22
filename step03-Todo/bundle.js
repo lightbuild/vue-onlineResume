@@ -110,6 +110,13 @@
 	        this.newTodo = oldInput || "";
 	    }
 	});
+	
+	var app1 = new _vue2.default({
+	    el: "#app1",
+	    data: {
+	        checked: ""
+	    }
+	});
 
 /***/ },
 /* 1 */

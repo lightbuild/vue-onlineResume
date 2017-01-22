@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Todo</title>
+	<link rel="stylesheet" type="text/css" href="style.css"/>
+</head>
+<body>
+<div id="app">
+    <section id="signInAndSignUp" v-if="!currentUser">
+        <div class="ct">
+            <label :class="{active:actionType ==='signUp'}"><input type="radio"name="type" value="signUp" v-model="actionType"/>注册</label>
+            <b>·</b>
+            <label :class="{active:actionType ==='logIn'}"><input type="radio" name="type" value="logIn" v-model="actionType"/>登录</label>
+        </div>
+        <div class="signUp" v-if="actionType === 'signUp'">
+            <form @submit.prevent="signUp">
+                <div class="formRow">
+                    <input class="userInfo usernameInfo" type="text" v-model="formData.username" placeholder="请输入你的用户名"/>
+                </div>
+                <div class="forRow">
+                    <input class="userInfo passwordInfo" type="password" v-model="formData.password" placeholder="请输入你的密码"/>
+                </div>
+                <div class="formActions">
+                    <input :class="{btnSignUp:actionType ==='signUp'}" type="submit" value="注册"/>
+                </div>
+            </form>
+        </div>
+        <div class="logIn" v-if="actionType ==='logIn'">
+            <form @submit.prevent="logIn">
+                <div class="formRow">
+                    <input class="userInfo usernameInfo" type="text" v-model="formData.username" placeholder="请输入你的用户名"/>
+                </div>
+                <div class="formRow">
+                    <input class="userInfo passwordInfo" type="password" v-model="formData.password" placeholder="请输入你的密码"/>
+                </div>
+                <div class="formActions">
+                    <input :class="{btnLogIn:actionType==='logIn'}" type="submit" value="登录"/>
+                </div>
+            </form>
+        </div>
+    </section>
+    <section id="todo" v-if="currentUser">
+        <p class="curUser">你好：{{showName}}<button class="logout" @click="logout">退出登录</button></p>
+        <div class="newTask">
+            <input class="new-todo" type="text" v-model="newTodo" placeholder="请输入你的计划" @keypress.enter="addTodo"/>
+        </div>
+        <ol class="todos">
+            <li v-for="todo in todoList" v-cloak>
+                <input type="checkbox" v-model="todo.done"/>
+                <span class="title">{{ todo.title }}</span>
+                <span class="done done-yes" v-if="todo.done">已完成</span>
+                <span class="done done-no" v-else>未完成</span>
+                <span class="time">创建时间：{{ todo.createdAt }}</span>
+                <button @click="removeTodo(todo)">删除该项</button>
+            </li>
+        </ol>
+    </section>
+</div>
+<script src="bundle.js"></script>
+</body>
+</html>
